@@ -33,5 +33,5 @@ data "aws_nat_gateway" "custom" {
 data "aws_subnet_ids" "default" {
   vpc_id = aws_vpc.vpc.id
 
-  depends_on = [aws_subnet.add_public, aws_subnet.add_private]
+  depends_on = [aws_subnet.public, aws_subnet.private]
 }
