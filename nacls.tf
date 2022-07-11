@@ -3,7 +3,7 @@ resource "aws_network_acl" "default" {
   count = var.single_network_acl ? 1 : 0
 
   vpc_id     = aws_vpc.vpc.id
-  subnet_ids = flatten(data.aws_subnet_ids.default.ids)
+  subnet_ids = flatten(data.aws_subnets.default.ids)
 
   tags = merge(
     {
