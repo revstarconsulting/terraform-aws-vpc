@@ -404,10 +404,11 @@ variable "environment" {
       "sandbox",
       "transit",
       "vault",
-      "shared"
+      "shared",
+      "test"
     ], var.environment)
 
-    error_message = "The environment value is not valid. Valid values are dev/development/uat/prod/production/sandbox/transit/vault/shared."
+    error_message = "The environment value is not valid. Valid values are dev/development/uat/prod/production/sandbox/transit/vault/shared/test."
   }
 }
 
