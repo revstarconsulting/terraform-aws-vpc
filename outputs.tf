@@ -151,3 +151,13 @@ output "custom_nat_ids" {
   description = "List of custom NAT GW IDs"
   value       = { for k, v in data.aws_nat_gateway.custom : k => v.id }
 }
+
+output "private_rtb_id" {
+  description = "Private Route table id"
+  value       = aws_route_table.private.id
+}
+
+output "public_rtb_id" {
+  description = "Public Route table id"
+  value       = aws_route_table.public.id
+}
