@@ -154,7 +154,7 @@ output "custom_nat_ids" {
 
 output "private_rtb_id" {
   description = "Private Route table id"
-  value       = aws_route_table.private.id
+  value       = aws_route_table.private.*.id
 }
 
 output "public_rtb_id" {
