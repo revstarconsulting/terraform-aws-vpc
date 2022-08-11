@@ -28,6 +28,7 @@ resource "aws_route" "public_internet_gateway" {
 # There are as many routing tables as the number of NAT gateways
 #################
 resource "aws_route_table" "private" {
+  count  = var.enable_nat_gateway ? 1 : 0
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -39,19 +40,20 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private" {
-  route_table_id         = aws_route_table.private.id
+  count                  = var.enable_nat_gateway ? 1 : 0
+  route_table_id         = element(aws_route_table.private.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.this[0].id
+  nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 }
 
 ##########################
 # Route table association
 ##########################
 resource "aws_route_table_association" "private" {
-  count = length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
+  count = var.enable_nat_gateway ? length(var.private_subnets) > 0 ? length(var.private_subnets) : 0 : 0
 
   subnet_id      = element(aws_subnet.private.*.id, count.index)
-  route_table_id = aws_route_table.private.id
+  route_table_id = element(aws_route_table.private.*.id, count.index)
 }
 
 
