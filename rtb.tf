@@ -50,7 +50,7 @@ resource "aws_route" "private" {
 # Route table association
 ##########################
 resource "aws_route_table_association" "private" {
-  count = length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
+  count = var.enable_nat_gateway ? length(var.private_subnets) > 0 ? length(var.private_subnets) : 0 : 0
 
   subnet_id      = element(aws_subnet.private.*.id, count.index)
   route_table_id = element(aws_route_table.private.*.id, count.index)
