@@ -393,23 +393,6 @@ variable "private_outbound_acl_rules" {
 variable "environment" {
   description = "Provide appropriate environment name"
   type        = string
-
-  validation {
-    condition = contains([
-      "dev",
-      "development",
-      "uat",
-      "production",
-      "prod",
-      "sandbox",
-      "transit",
-      "vault",
-      "shared",
-      "test"
-    ], var.environment)
-
-    error_message = "The environment value is not valid. Valid values are dev/development/uat/prod/production/sandbox/transit/vault/shared/test."
-  }
 }
 
 
