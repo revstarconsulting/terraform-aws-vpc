@@ -1,3 +1,4 @@
+data "aws_region" "current" {}
 data "aws_subnet" "add_public" {
   for_each = var.additional_public_subnets
   filter {

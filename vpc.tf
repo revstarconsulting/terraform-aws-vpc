@@ -24,6 +24,11 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
   cidr_block = element(var.secondary_cidr_blocks, count.index)
 }
 
+resource "aws_vpc_ipv6_cidr_block_association" "this" {
+  ipv6_ipam_pool_id = aws_vpc_ipam_pool.this.id
+  vpc_id            = aws_vpc.vpc.id
+}
+
 resource "aws_default_security_group" "this" {
   count = var.manage_default_security_group ? 1 : 0
 
