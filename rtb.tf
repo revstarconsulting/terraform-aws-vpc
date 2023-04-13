@@ -16,6 +16,15 @@ resource "aws_route" "public_internet_gateway" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this[0].id
+  timeouts {
+    create = "5m"
+  }
+}
+
+resource "aws_route" "public_internet_gateway_ipv6" {
+  route_table_id              = aws_route_table.public.id
+  gateway_id                  = aws_internet_gateway.this[0].id
+  destination_ipv6_cidr_block = "::/0"
 
   timeouts {
     create = "5m"
@@ -46,6 +55,12 @@ resource "aws_route" "private" {
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 }
 
+resource "aws_route" "private_ipv6" {
+  count                       = var.enable_nat_gateway ? 1 : 0
+  route_table_id              = element(aws_route_table.private.*.id, count.index)
+  nat_gateway_id              = element(aws_nat_gateway.this.*.id, count.index)
+  destination_ipv6_cidr_block = "::/0"
+}
 ##########################
 # Route table association
 ##########################

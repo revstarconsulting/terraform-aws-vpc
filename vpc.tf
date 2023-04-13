@@ -2,10 +2,11 @@
 # VPC
 ######
 resource "aws_vpc" "vpc" {
-  cidr_block           = var.cidr
-  instance_tenancy     = var.instance_tenancy
-  enable_dns_hostnames = var.enable_dns_hostnames
-  enable_dns_support   = var.enable_dns_support
+  cidr_block                       = var.cidr
+  instance_tenancy                 = var.instance_tenancy
+  enable_dns_hostnames             = var.enable_dns_hostnames
+  enable_dns_support               = var.enable_dns_support
+  assign_generated_ipv6_cidr_block = true
 
   tags = merge(
     {
@@ -22,11 +23,6 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
   vpc_id = aws_vpc.vpc.id
 
   cidr_block = element(var.secondary_cidr_blocks, count.index)
-}
-
-resource "aws_vpc_ipv6_cidr_block_association" "this" {
-  ipv6_ipam_pool_id = aws_vpc_ipam_pool.this.id
-  vpc_id            = aws_vpc.vpc.id
 }
 
 resource "aws_default_security_group" "this" {
