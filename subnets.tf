@@ -37,7 +37,7 @@ resource "aws_subnet" "private" {
   cidr_block           = var.private_subnets[count.index]
   availability_zone    = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
   availability_zone_id = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
-  ipv6_cidr_block      = cidrsubnet(aws_vpc.vpc.ipv6_cidr_block, 8, count.index)
+  ipv6_cidr_block      = cidrsubnet(aws_vpc.vpc.ipv6_cidr_block, 8, count.index + 2)
 
   tags = merge(
     {
