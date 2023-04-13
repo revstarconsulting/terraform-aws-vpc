@@ -55,6 +55,13 @@ resource "aws_route" "private" {
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 }
 
+resource "aws_route" "private_ipv6" {
+  count                       = length(var.private_subnets) > 0 ? 1 : 0
+  route_table_id              = element(aws_route_table.private.*.id, count.index)
+  destination_ipv6_cidr_block = "::/0"
+  egress_only_gateway_id      = aws_egress_only_internet_gateway.this[0].id
+}
+
 ##########################
 # Route table association
 ##########################
