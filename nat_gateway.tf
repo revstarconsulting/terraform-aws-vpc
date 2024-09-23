@@ -42,7 +42,7 @@ resource "aws_nat_gateway" "this" {
 
 resource "aws_eip" "nat_custom" {
   for_each = aws_subnet.nat_public
-  vpc      = true
+  domain = "vpc"
 
   tags = merge(
     var.nat_eip_tags,
